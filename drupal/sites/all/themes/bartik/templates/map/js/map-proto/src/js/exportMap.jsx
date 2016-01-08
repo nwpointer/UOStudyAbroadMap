@@ -1,1 +1,0 @@
-var WorldMap = require('./globe/world_map.jsx');

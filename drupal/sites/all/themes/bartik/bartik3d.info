@@ -33,11 +33,10 @@ regions[footer] = Footer
 
 settings[shortcut_module_link] = 0
 
-scripts[] = templates/map/js/UI/js/dist/main.js
-scripts[] = templates/map/js/map-proto/build/country_data.js
-scripts[] = templates/map/js/map-proto/build/app.js
-
-
+scripts[] = js/Detector.js
+scripts[] = js/country_data.js
+scripts[] = js/api.js
+scripts[] = js/dist/main.js
 
 ; Information added by Drupal.org packaging script on 2015-08-19
 version = "7.39"
