@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "watch": "watchify -t [ babelify --presets [ es2015 react stage-0] ] src/main.js -o dist/main.js"
+    "compiler": "watchify -t [ babelify --presets [ es2015 react stage-0] ] src/main.js -o dist/main.js"
   },
   "author": "",
   "license": "ISC"

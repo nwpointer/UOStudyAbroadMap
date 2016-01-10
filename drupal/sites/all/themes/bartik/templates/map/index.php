@@ -216,12 +216,9 @@
 		z-index: 100;
 		position: absolute;
 	}
-
 	#subslider a{
-		color:red;
 		width:10%;
 		display: inline-block;
-		background: green
 	}
 	#subslider ul{
 		display: inline-block;
@@ -229,12 +226,69 @@
 	}
 	#subslider li{
 		display: inline-block;
-		background: red;
-		border-radius: 100%;
 		overflow: hidden;
 	}
 	#subslider img{
-		max-width: 100%;
+		width: 100%;
+		height: 100%;
+		border-radius: 100%;
+		/*position: absolute;
+		top: 50%;
+		transform: translateY(-50%);*/
+		/*border:2px solid yellow;*/
+	}
+
+	#subslider li:nth-child(3) img{
+		width: calc(100% - 4px) !important;
+		border: 2px solid yellow !important;
+	}
+
+/*	.square {
+	  position: relative;
+	  width: 50%;
+	  border:1px solid red;
+	}
+
+	.square:after {
+	  content: "";
+	  display: block;
+	  padding-bottom: 100%;
+	}
+
+	.content {
+	  position: absolute;
+	  width: 100%;
+	  height: 100%;
+	}*/
+
+	.chevron::before {
+		border-style: solid;
+		border-width: 0.25em 0.25em 0 0;
+		content: '';
+		display: inline-block;
+		height: 0.45em;
+		left: 0.15em;
+		position: relative;
+		top: 0.15em;
+		transform: rotate(-45deg);
+		vertical-align: top;
+		width: 0.45em;
+		color: yellow;
+	}
+
+	.chevron.right:before {
+		left: 0;
+		transform: rotate(45deg);
+	}
+
+	.chevron.bottom:before {
+		top: 0;
+		transform: rotate(135deg);
+	}
+
+	.chevron.left:before {
+		left: 0.25em;
+		transform: rotate(-135deg);
 	}
 
 </style>
@@ -247,10 +301,6 @@
 		React.createElement(MapAppFactory),
 		document.getElementById('map')
 	);
-// React.render(
-// 	React.createElement(App),
-// 	document.getElementById('container')
-// )
 </script>
 
 

@@ -130,15 +130,19 @@ class SubSlider extends React.Component{
 		var widths = p.widthMap.map(x=>{return{width:x+'%'}})
 		return(
 			<div id="subslider">
-				<a onClick={p.change.bind(null, (p.currentSlide+(p.children.length+1))%p.children.length)}>-</a>
+				<a onClick={p.change.bind(null, (p.currentSlide+(p.children.length+1))%p.children.length)}>
+					<span className="chevron left"></span>
+				</a>
 				<ul>
 					{
 						_(modMap(p.children,p.widthMap.length,p.currentSlide))
 						.first(p.widthMap.length)
-						.map((x,i)=>(<li style={widths[i]} key={i}>{x}</li>))
+						.map((x,i)=>(<li className="square" style={widths[i]} key={i}><div className="content">{x}</div></li>))
 					}
 				</ul>
-				<a onClick={p.change.bind(null, (p.currentSlide+(p.children.length-1))%p.children.length)}>+</a>
+				<a onClick={p.change.bind(null, (p.currentSlide+(p.children.length-1))%p.children.length)}>
+					<span className="chevron right"></span>
+				</a>
 			</div>
 		)
 	}
