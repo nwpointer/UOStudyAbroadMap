@@ -1,4 +1,4 @@
-var React =window.React = require('react');
+var React = window.React = require('react');
 var ReactDOM = window.ReactDOM = require('react-dom');
 var _ = require('underscore');
 
@@ -61,6 +61,7 @@ class Slide extends React.Component{
 		)
 	}
 }
+
 class Slider extends React.Component{
   state={
 	currentSlide:0,
@@ -90,6 +91,7 @@ class Slider extends React.Component{
     );
   }
 };
+
 class CardHeader extends React.Component{
 	render(){
 		return(
@@ -122,7 +124,6 @@ class ResearcherInfo extends React.Component {
 		)
 	}
 }
-
 
 class SubSlider extends React.Component{
 	render(){

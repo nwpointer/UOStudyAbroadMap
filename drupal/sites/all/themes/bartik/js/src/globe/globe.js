@@ -107,7 +107,7 @@ DAT.Globe = function(container, opts, callback) {
         var sea_mesh = new THREE.Mesh(new THREE.SphereGeometry(radius+.04, segments, segments), new THREE.MeshLambertMaterial({
             opacity: 1,
             depthTest: true,
-            color: 0x6699ff
+            color: 0x141814
         }));
         base_globe.add(sea_mesh);
 
@@ -120,9 +120,13 @@ DAT.Globe = function(container, opts, callback) {
             var sub_mesh = country_data[name].mesh = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({
                 color: color
             }));
+            var outlineMat = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.BackSide } );
+            var outlineMesh = new THREE.Mesh( geo, outlineMat );
+            outlineMesh.scale.multiplyScalar(1.005);
             sub_mesh.name = "land";
             sub_mesh.userData.country = name;
             base_globe.add(sub_mesh);
+            base_globe.add(outlineMesh);
         }
         shader = Shaders['atmosphere'];
         uniforms = THREE.UniformsUtils.clone(shader.uniforms);
