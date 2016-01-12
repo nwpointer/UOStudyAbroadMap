@@ -22832,6 +22832,8 @@ var base_globe = 0;
 var intersected_object = 0;
 var hover_scale = 1.01;
 var flag = true;
+var last_country;
+var pop_country = [];
 
 DAT.Globe = function (container, opts, callback) {
   "use strict";
@@ -22902,6 +22904,7 @@ DAT.Globe = function (container, opts, callback) {
     base_globe = new THREE.Object3D();
     base_globe.scale.set(20, 20, 20);
     scene.add(base_globe);
+
     var sea_texture = THREE.ImageUtils.loadTexture('https://c1.staticflickr.com/3/2365/1782866925_42339aa1d7_b.jpg', THREE.UVMapping, function () {
       sea_texture.wrapS = THREE.RepeatWrapping;
       sea_texture.wrapT = THREE.RepeatWrapping;
@@ -22913,15 +22916,22 @@ DAT.Globe = function (container, opts, callback) {
       }));
       base_globe.add(sea_mesh);
 
+      for (var i = 0; i < country_pop.length; i += 1) {
+        pop_country[country_pop[i]["country"]] = country_pop[i]["population"] / 1000000000;
+      }
+
       for (var name in country_data) {
         var geo = new Tessalator3D(country_data[name], 0);
 
         var continents = ["EU", "AN", "AS", "OC", "SA", "AF", "NA"];
         var color = new THREE.Color(0xff0000);
-        color.setHSL(2 * (1 / 7), Math.random() * 0.25 + 0.65, Math.random() / 2 + 0.25);
+        color.setHSL(2 * (1 / 7), pop_country[name] * 0.25 + 0.65, pop_country[name] / 2 + 0.25);
         var sub_mesh = country_data[name].mesh = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({
           color: color
         }));
+        if (pop_country[name] == null) {
+          console.log(name);
+        }
         var outlineMat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide });
         var outlineMesh = new THREE.Mesh(geo, outlineMat);
         outlineMesh.scale.multiplyScalar(1.005);
@@ -22983,7 +22993,7 @@ DAT.Globe = function (container, opts, callback) {
       if (intersected_object !== 0) {
         intersected_object.scale.set(1.0, 1.0, 1.0);
         var color = new THREE.Color(0xff0000);
-        color.setHSL(2 * (1 / 7), Math.random() * 0.25 + 0.65, Math.random() / 2 + 0.25);
+        color.setHSL(2 * (1 / 7), pop_country[last_country] * 0.25 + 0.65, pop_country[last_country] / 2 + 0.25);
         intersected_object.material.color = color;
         intersected_object.material.needsUpdate = true;
       }
@@ -22999,6 +23009,7 @@ DAT.Globe = function (container, opts, callback) {
         if (intersects[0].point !== null) {
           if (intersects[0].object.name === "land") {
             console.log(intersects[0].object.userData.country);
+            last_country = intersects[0].object.userData.country;
 
             callback(intersects[0].object.userData.country);
 
@@ -23089,6 +23100,7 @@ DAT.Globe = function (container, opts, callback) {
     camera.aspect = container.offsetWidth / container.offsetHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(container.offsetWidth, container.offsetHeight);
+    console.log("window resized");
   }
 
   function zoom(delta) {
