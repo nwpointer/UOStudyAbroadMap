@@ -22970,9 +22970,9 @@ DAT.Globe = function (container, opts, callback) {
 
     container.addEventListener('mousewheel', onMouseWheel, false);
 
-    document.addEventListener('keydown', onDocumentKeyDown, false);
+    container.addEventListener('keydown', onDocumentKeyDown, false);
 
-    document.addEventListener('mouseup', onDocumentMouseMove, false);
+    container.addEventListener('mouseup', onDocumentMouseMove, false);
 
     window.addEventListener('resize', onWindowResize, false);
 
@@ -23398,6 +23398,8 @@ var when = window.when = require('when');
 
 var TWEEN = require('./globe/third-party/Tween.js');
 var DAT = require('./globe/globe.js');
+
+//var WorldMap = require('./globe/world_map.js');
 
 // var Detector = require('./globe/third-party/Detector.js');
 
@@ -23873,82 +23875,61 @@ var CountrySelector = (function (_React$Component10) {
 	return CountrySelector;
 })(React.Component);
 
-var App = (function (_React$Component11) {
-	_inherits(App, _React$Component11);
+var App = React.createClass({
+	displayName: 'App',
 
-	function App() {
-		var _Object$getPrototypeO3;
-
-		var _temp3, _this13, _ret3;
-
-		_classCallCheck(this, App);
-
-		for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-			args[_key3] = arguments[_key3];
-		}
-
-		return _ret3 = (_temp3 = (_this13 = _possibleConstructorReturn(this, (_Object$getPrototypeO3 = Object.getPrototypeOf(App)).call.apply(_Object$getPrototypeO3, [this].concat(args))), _this13), _this13.state = {
-			country: "Japan",
+	getInitialState: function getInitialState() {
+		return { country: "Japan",
 			countryData: {},
-			countryCardIsVisable: false
-		}, _this13.close = function (e) {
-			console.log(e);
-			_this13.setState({ countryCardIsVisable: false });
-		}, _temp3), _possibleConstructorReturn(_this13, _ret3);
-	}
+			countryCardIsVisable: false };
+	},
+	fetchCountryData: function fetchCountryData(cname) {
+		var self = this;
+		API.onResolution(API.getFacultyProfilesByCname.bind(this, cname), function (v) {
+			var s = self.state;
+			s.countryData[cname] = v;
+			self.setState(s);
+			console.log(v);
+		});
+	},
+	componentDidMount: function componentDidMount() {
+		this.fetchCountryData(this.state.country);
+	},
+	close: function close(e) {
+		console.log(e);
+		this.setState({ countryCardIsVisable: false });
+	},
+	render: function render() {
+		var _this13 = this;
 
-	_createClass(App, [{
-		key: 'fetchCountryData',
-		value: function fetchCountryData(cname) {
-			var self = this;
-			API.onResolution(API.getFacultyProfilesByCname.bind(this, cname), function (v) {
-				var s = self.state;
-				s.countryData[cname] = v;
-				self.setState(s);
-				console.log(v);
-			});
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			this.fetchCountryData(this.state.country);
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this14 = this;
-
-			var s = this.state;
-			return React.createElement(
+		var s = this.state;
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
 				'div',
 				null,
-				React.createElement(
-					'div',
-					null,
-					React.createElement(WorldMap, {
-						country: s.country,
-						changeCountry: function changeCountry(cname) {
-							if (cname) {
-								_this14.fetchCountryData(cname);
-								_this14.setState({
-									country: cname,
-									countryCardIsVisable: true
-								});
-							}
+				React.createElement(WorldMap, {
+					country: s.country,
+					changeCountry: function changeCountry(cname) {
+						if (cname) {
+							_this13.fetchCountryData(cname);
+							_this13.setState({
+								country: cname,
+								countryCardIsVisable: true
+							});
 						}
-					})
-				),
-				React.createElement(
-					'aside',
-					null,
-					React.createElement(CountryCard, { visable: s.countryCardIsVisable, countryData: s.countryData[s.country] })
-				)
-			);
-		}
-	}]);
-
-	return App;
-})(React.Component);
+					}
+				})
+			),
+			React.createElement(
+				'aside',
+				null,
+				React.createElement(CountryCard, { visable: s.countryCardIsVisable, countryData: s.countryData[s.country] })
+			)
+		);
+	}
+});
 
 window.MapAppFactory = React.createFactory(App);
 

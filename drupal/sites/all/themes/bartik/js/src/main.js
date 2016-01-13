@@ -7,6 +7,8 @@ var when = window.when = require('when');
 var TWEEN = require('./globe/third-party/Tween.js');
 var DAT = require('./globe/globe.js');
 
+//var WorldMap = require('./globe/world_map.js');
+
 // var Detector = require('./globe/third-party/Detector.js');
 
 
@@ -16,7 +18,6 @@ var modMap = function(array, n, offset){
 	var offset = offset || 0;
 	return _(n).times(x=>array[(x+offset)%array.length])
 }
-
 
 var WorldMap = React.createClass({
   getInitialState: function(){
@@ -245,13 +246,13 @@ class CountrySelector extends React.Component{
 	}
 }
 
-class App extends React.Component{
-	state={
-		country:"Japan",
-		countryData:{},
-		countryCardIsVisable:false,
-	}
-	fetchCountryData(cname){
+var App = React.createClass({
+	getInitialState: function(){
+		return{country:"Japan",
+			   countryData:{},
+		       countryCardIsVisable:false}
+	},
+	fetchCountryData: function(cname){
 		var self = this;
 		API.onResolution(
 			API.getFacultyProfilesByCname.bind(this,cname),
@@ -262,15 +263,15 @@ class App extends React.Component{
 				console.log(v);
 			}
 		);
-	}
-	componentDidMount(){
+	},
+	componentDidMount: function(){
 		this.fetchCountryData(this.state.country);
-	}
-	close = (e) =>{
+	},
+	close: function(e){
 		console.log(e);
 		this.setState({countryCardIsVisable:false})
-	}
-	render(){
+	},
+	render: function(){
 		var s = this.state;
 		return(
 			<div>
@@ -294,6 +295,6 @@ class App extends React.Component{
 			</div>
 		)
 	}
-}
+});
 
 window.MapAppFactory = React.createFactory(App);

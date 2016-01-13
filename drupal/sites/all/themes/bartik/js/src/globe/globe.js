@@ -169,9 +169,9 @@ DAT.Globe = function(container, opts, callback) {
 
     container.addEventListener('mousewheel', onMouseWheel, false);
 
-    document.addEventListener('keydown', onDocumentKeyDown, false);
+    container.addEventListener('keydown', onDocumentKeyDown, false);
 
-    document.addEventListener('mouseup', onDocumentMouseMove, false);
+    container.addEventListener('mouseup', onDocumentMouseMove, false);
 
     window.addEventListener('resize', onWindowResize, false);
 
