@@ -43,7 +43,7 @@ DAT.Globe = function(container, opts, callback) {
       fragmentShader: [
         'varying vec3 vNormal;',
         'void main() {',
-          'float intensity = pow( 0.8 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 12.0 );',
+          'float intensity = pow( .4 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 3.0 );',
           'gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;',
         '}'
       ].join('\n')
@@ -110,7 +110,7 @@ DAT.Globe = function(container, opts, callback) {
         var sea_mesh = new THREE.Mesh(new THREE.SphereGeometry(radius+.04, segments, segments), new THREE.MeshLambertMaterial({
             opacity: 1,
             depthTest: true,
-            color: 0x141814
+            color: 0x000019
         }));
         base_globe.add(sea_mesh);
 
@@ -153,7 +153,7 @@ DAT.Globe = function(container, opts, callback) {
 
             });
         sub_mesh = new THREE.Mesh(geometry, material);
-        sub_mesh.scale.set( 1.14, 1.14, 1.14 );
+        sub_mesh.scale.set( 1.16, 1.16, 1.16 );
         base_globe.add(sub_mesh);
         mesh = sub_mesh;
     });
